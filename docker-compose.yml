@@ -1,0 +1,38 @@
+version: "3"
+services:
+  server:
+    build:
+      context: ./server
+    container_name: server
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/backend/socialrest/static:/home/serveruser/vhosts/socialrest/static:delegated
+      - apache-logs:/var/log/apache2
+    depends_on:
+      - backend
+    extra_hosts:
+      - "socialrest.local:127.0.0.1"
+      - "www.socialrest.local:127.0.0.1"
+    networks:
+      app_net:
+  backend:
+    build:
+      context: ./backend
+      args:
+        UID: ${USER_ID}
+        GID: ${GROUP_ID}
+    container_name: backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/backend:/home/serveruser/vhosts:delegated
+      - backend-logs:/home/serveruser/logs
+    networks:
+      app_net:
+volumes:
+  apache-logs:
+  backend-logs:
+networks:
+  app_net:
