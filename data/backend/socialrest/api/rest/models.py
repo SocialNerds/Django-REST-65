@@ -66,18 +66,3 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
-
-class BlogCategory(models.Model):
-    """ Pivot between blog post and category """
-
-    # Blog.
-    blog = models.ForeignKey(
-        Blog,
-        on_delete=models.CASCADE
-    )
-    
-    # Category.
-    category = models.ForeignKey(
-        Category, 
-        on_delete=models.CASCADE
-    )
