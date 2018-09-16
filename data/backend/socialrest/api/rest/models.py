@@ -57,27 +57,12 @@ class Blog(models.Model):
     # Author
     author = models.ForeignKey(
         User,
-        models.SET_NULL,
         verbose_name="Author",
         help_text="The author of this blog post.",
         blank=True,
         null=True,
+        on_delete=models.SET_NULL
     )
 
     def __str__(self):
         return self.title
-
-class BlogCategory(models.Model):
-    """ Pivot between blog post and category """
-
-    # Blog.
-    blog = models.ForeignKey(
-        Blog,
-        on_delete=models.CASCADE
-    )
-    
-    # Category.
-    category = models.ForeignKey(
-        Category, 
-        on_delete=models.CASCADE
-    )
